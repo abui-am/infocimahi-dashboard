@@ -1,0 +1,20 @@
+{
+  "editor.detectIndentation": false,
+  "search.exclude": {
+    "package-lock.json": true
+  },
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": [
+    "source.addMissingImports",
+    "source.fixAll.eslint"
+  ],
+  "[json][jsonc]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "docwriter.style": "JSDoc",
+  "sonarlint.connectedMode.project": {
+    "connectionId": "https-sonarqube-sejutacita-id-",
+    "projectKey": "Sejutacita_hris"
+  }
+}
