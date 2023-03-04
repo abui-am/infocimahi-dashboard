@@ -5,6 +5,7 @@ import { type AppType } from 'next/app';
 import { type Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 
+import AuthShowcase from '@/components/auth/AuthWrapper';
 import { api } from '@/utils/api';
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -12,11 +13,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
-        <Component {...pageProps} />
-      </MantineProvider>
-    </SessionProvider>
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <SessionProvider session={session}>
+        <AuthShowcase>
+          <Component {...pageProps} />
+          aa
+        </AuthShowcase>
+      </SessionProvider>
+    </MantineProvider>
   );
 };
 
