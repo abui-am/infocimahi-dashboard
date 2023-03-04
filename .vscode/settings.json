@@ -12,9 +12,5 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "docwriter.style": "JSDoc",
-  "sonarlint.connectedMode.project": {
-    "connectionId": "https-sonarqube-sejutacita-id-",
-    "projectKey": "Sejutacita_hris"
-  }
+  "docwriter.style": "JSDoc"
 }
