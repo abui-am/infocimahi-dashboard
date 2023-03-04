@@ -1,13 +1,15 @@
-import { type GetServerSidePropsContext } from "next";
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { type GetServerSidePropsContext } from 'next';
 import {
-  getServerSession,
-  type NextAuthOptions,
   type DefaultSession,
-} from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { env } from "@/env.mjs";
-import { prisma } from "@/server/db";
+  type NextAuthOptions,
+  getServerSession,
+} from 'next-auth';
+import DiscordProvider from 'next-auth/providers/discord';
+import EmailProvider from 'next-auth/providers/email';
+
+import { env } from '@/env.mjs';
+import { prisma } from '@/server/db';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -15,13 +17,13 @@ import { prisma } from "@/server/db";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
       id: string;
       // ...other properties
       // role: UserRole;
-    } & DefaultSession["user"];
+    } & DefaultSession['user'];
   }
 
   // interface User {
@@ -39,7 +41,8 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session({ session, user }) {
       if (session.user) {
-        session.user.id = user.id;
+        // eslint-disable-next-line no-param-reassign
+        session.user.id = user?.id;
         // session.user.role = user.role; <-- put other properties on the session here
       }
       return session;
@@ -50,6 +53,18 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
+    }),
+    EmailProvider({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+      },
+      from: process.env.EMAIL_FROM,
+      // maxAge: 24 * 60 * 60, // How long email links are valid for (default 24h)
     }),
     /**
      * ...add more providers here.
@@ -69,8 +84,8 @@ export const authOptions: NextAuthOptions = {
  * @see https://next-auth.js.org/configuration/nextjs
  */
 export const getServerAuthSession = (ctx: {
-  req: GetServerSidePropsContext["req"];
-  res: GetServerSidePropsContext["res"];
+  req: GetServerSidePropsContext['req'];
+  res: GetServerSidePropsContext['res'];
 }) => {
   return getServerSession(ctx.req, ctx.res, authOptions);
 };

@@ -9,7 +9,7 @@ const config = {
         "next/core-web-vitals",
         "plugin:prettier/recommended",
       ],
-      files: ["*.ts", "*.tsx"],
+      files: ["*.ts", "*.tsx", "*.mjs"],
       plugins: [
         "@typescript-eslint",
         "unused-imports",
