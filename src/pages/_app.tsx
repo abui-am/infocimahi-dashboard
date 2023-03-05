@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 
 import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 import { type AppType } from 'next/app';
 import { type Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
@@ -13,11 +14,18 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
+    <MantineProvider
+      withGlobalStyles
+      withNormalizeCSS
+      theme={{
+        /** Put your mantine theme override here */
+        colorScheme: 'light',
+      }}
+    >
+      <Notifications />
       <SessionProvider session={session}>
         <AuthShowcase>
           <Component {...pageProps} />
-          aa
         </AuthShowcase>
       </SessionProvider>
     </MantineProvider>

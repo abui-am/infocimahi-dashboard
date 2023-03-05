@@ -1,6 +1,9 @@
-import { AppShell, Header, Navbar } from '@mantine/core';
+import { Paper } from '@mantine/core';
 import { type NextPage } from 'next';
 import Head from 'next/head';
+
+import SocMed from '@/components/form/SocMed';
+import MainLayout from '@/components/layouts/MainLayout';
 
 const Home: NextPage = () => {
   return (
@@ -11,29 +14,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <AppShell
-          padding="md"
-          navbar={
-            <Navbar width={{ base: 300 }} height={500} p="xs">
-              <div>Class</div>
-            </Navbar>
-          }
-          header={
-            <Header height={60} p="xs">
-              {/* Header content */}
-            </Header>
-          }
-          styles={(theme) => ({
-            main: {
-              backgroundColor:
-                theme.colorScheme === 'dark'
-                  ? theme.colors.dark[8]
-                  : theme.colors.gray[0],
-            },
-          })}
-        >
-          tess
-        </AppShell>
+        <MainLayout>
+          <Paper className="p-8">
+            <h2 className="font-bold">Social Media Count</h2>
+            <SocMed />
+          </Paper>
+        </MainLayout>
       </main>
     </>
   );
