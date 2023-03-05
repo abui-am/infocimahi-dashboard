@@ -64,3 +64,19 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+// Org
+model Organization {
+    id              String  @id @default(cuid())
+    name            String?
+    email           String? @unique
+    image           String?
+    instagram_count Int?
+    instagram_url   String?
+    facebook_count  Int?
+    facebook_url    String?
+    twitter_count   Int?
+    twitter_url     String?
+    youtube_count   Int?
+    youtube_url     String?
+}
