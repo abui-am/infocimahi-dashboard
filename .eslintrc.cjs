@@ -9,17 +9,13 @@ const config = {
         "next/core-web-vitals",
         "plugin:prettier/recommended",
       ],
-      files: ["*.ts", "*.tsx"],
+      files: ["*.ts", "*.tsx", "*.mjs"],
       plugins: [
         "@typescript-eslint",
         "unused-imports",
         "tailwindcss",
         "simple-import-sort",
       ],
-      parserOptions: {
-        project: "tsconfig.json",
-      },
-
       rules: {
         "@typescript-eslint/consistent-type-imports": [
             "warn",
