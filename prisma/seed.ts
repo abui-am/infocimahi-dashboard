@@ -22,6 +22,34 @@ async function main() {
     },
     update: {},
   });
+
+  await prisma.role.upsert({
+    where: {
+      idName: 'superadmin',
+    },
+    create: {
+      idName: 'superadmin',
+      name: 'Super Admin',
+    },
+    update: {
+      idName: 'superadmin',
+      name: 'Super Amin',
+    },
+  });
+
+  await prisma.role.upsert({
+    where: {
+      idName: 'admin',
+    },
+    create: {
+      idName: 'admin',
+      name: 'Admin',
+    },
+    update: {
+      idName: 'admin',
+      name: 'Admin',
+    },
+  });
 }
 
 main()

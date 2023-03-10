@@ -55,6 +55,8 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+
+    RoleOnUser RoleOnUser[]
 }
 
 model VerificationToken {
@@ -79,4 +81,22 @@ model Organization {
     twitter_url     String?
     youtube_count   Int?
     youtube_url     String?
+}
+
+// Role
+model Role {
+    id     String @id @default(cuid())
+    idName String @unique
+    name   String
+
+    RoleOnUser RoleOnUser[]
+}
+
+model RoleOnUser {
+    roleId String
+    userId String
+    role   Role   @relation(fields: [roleId], references: [id])
+    user   User   @relation(fields: [userId], references: [id])
+
+    @@id([userId, roleId])
 }
