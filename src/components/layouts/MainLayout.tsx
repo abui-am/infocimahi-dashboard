@@ -15,7 +15,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
           <div className="mx-auto flex h-full items-center justify-between px-4">
             <h1 className="text-base font-bold">Infocimahi Dashboard</h1>
             <div className="flex gap-4">
-              <span>Hello, {data?.user.email}</span>
+              <span>Hello, {data?.user?.name || data?.user.email}</span>
               <button
                 type="button"
                 className="text-sm font-bold text-blue-500"
