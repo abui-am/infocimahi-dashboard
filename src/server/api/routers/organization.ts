@@ -1,3 +1,4 @@
+import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import {
@@ -45,6 +46,16 @@ export const organizationRouter = createTRPCRouter({
         },
         ctx,
       }) => {
+        if (
+          !ctx.session.user?.roles.find((val) => val.idName === 'superadmin')
+        ) {
+          throw new TRPCError({
+            code: 'FORBIDDEN',
+            message: 'An unexpected error occurred, please try again later.',
+            // optional: pass the original error to retain stack trace
+            cause: 'FORBIDDEN',
+          });
+        }
         return ctx.prisma.organization.update({
           data: {
             instagram_count,

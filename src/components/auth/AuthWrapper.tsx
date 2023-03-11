@@ -24,7 +24,7 @@ const AuthShowcase: React.FC<PropsWithChildren> = ({ children }) => {
   if (!sessionData) {
     return <div>redirecting login...</div>;
   }
-  return <div>{children}a</div>;
+  return <div>{children}</div>;
 };
 
 export default AuthShowcase;
