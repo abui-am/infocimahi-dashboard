@@ -56,7 +56,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
 
-    RoleOnUser RoleOnUser[]
+    roles Role[]
 }
 
 model VerificationToken {
@@ -89,14 +89,5 @@ model Role {
     idName String @unique
     name   String
 
-    RoleOnUser RoleOnUser[]
-}
-
-model RoleOnUser {
-    roleId String
-    userId String
-    role   Role   @relation(fields: [roleId], references: [id])
-    user   User   @relation(fields: [userId], references: [id])
-
-    @@id([userId, roleId])
+    users User[]
 }
