@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import { api } from '@/utils/api';
 
 const SocMed = () => {
+  // TODO: Change to ENV later
   const ID = 'infocimahi1033b600ty1ydho';
   const data = api.organization.getOne.useQuery({
     id: ID,
