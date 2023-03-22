@@ -29,6 +29,7 @@ const OnboardingForm = ({ id }: { id: string }) => {
           id,
           data: {
             name: values.name,
+            onboardingStatus: 'waitingRole',
           },
         });
       })}
