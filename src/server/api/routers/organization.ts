@@ -47,11 +47,13 @@ export const organizationRouter = createTRPCRouter({
         ctx,
       }) => {
         if (
-          !ctx.session.user?.roles.find((val) => val.idName === 'superadmin')
+          !ctx.session.user?.roles.find((val) =>
+            ['superadmin', 'admin'].includes(val.idName)
+          )
         ) {
           throw new TRPCError({
             code: 'FORBIDDEN',
-            message: 'An unexpected error occurred, please try again later.',
+            message: 'Forbidden.',
             // optional: pass the original error to retain stack trace
             cause: 'FORBIDDEN',
           });

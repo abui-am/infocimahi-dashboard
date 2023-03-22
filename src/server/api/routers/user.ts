@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import { cleanObject } from '@/utils/object';
 
 export const userRouter = createTRPCRouter({
   me: protectedProcedure.query(({ ctx }) => {
@@ -8,14 +9,37 @@ export const userRouter = createTRPCRouter({
       where: {
         id: ctx.session.user?.id,
       },
+      include: {
+        roles: true,
+      },
     });
   }),
-  pathUser: protectedProcedure
+  getUsers: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.user.findMany({
+      include: {
+        roles: true,
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
+  }),
+  getUser: protectedProcedure.input(z.string()).query(({ ctx, input }) => {
+    return ctx.prisma.user.findFirst({
+      where: {
+        id: input,
+      },
+      include: {
+        roles: true,
+      },
+    });
+  }),
+  pathRoles: protectedProcedure
     .input(
       z.object({
         id: z.string(),
         data: z.object({
-          name: z.string(),
+          roles: z.array(z.string()),
         }),
       })
     )
@@ -23,10 +47,54 @@ export const userRouter = createTRPCRouter({
       async ({
         input: {
           id,
-          data: { name },
+          data: { roles },
         },
         ctx,
       }) => {
+        const user = await ctx.prisma.user.findFirst({
+          where: {
+            id,
+          },
+        });
+        return ctx.prisma.user.update({
+          where: {
+            id,
+          },
+
+          data: cleanObject({
+            onboardingStatus:
+              user?.onboardingStatus === 'waitingRole' ? 'onboarded' : '',
+            roles: {
+              set: roles?.map((role) => ({
+                idName: role,
+              })),
+            },
+          }),
+        });
+      }
+    ),
+  pathUser: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        data: z.object({
+          name: z.string(),
+          onboardingStatus: z.string().nullable().optional(),
+        }),
+      })
+    )
+    .mutation(
+      async ({
+        input: {
+          id,
+          data: { name, onboardingStatus },
+        },
+        ctx,
+      }) => {
+        const newData = cleanObject({
+          name,
+          onboardingStatus,
+        });
         if (
           (
             await ctx.prisma.user.findMany({
@@ -45,9 +113,10 @@ export const userRouter = createTRPCRouter({
               idName: 'superadmin',
             },
           });
+
           return ctx.prisma.user.update({
             data: {
-              name,
+              ...newData,
               roles: {
                 set: {
                   id: superAdmin?.id,
@@ -60,9 +129,7 @@ export const userRouter = createTRPCRouter({
           });
         }
         return ctx.prisma.user.update({
-          data: {
-            name,
-          },
+          data: newData,
           where: {
             id,
           },
