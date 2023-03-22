@@ -6,6 +6,7 @@ import { api } from '@/utils/api';
 
 const AuthShowcase: React.FC<PropsWithChildren> = ({ children }) => {
   const { data: sessionData, status } = useSession();
+  const { data: me } = api.user.me.useQuery();
   const router = useRouter();
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -16,8 +17,16 @@ const AuthShowcase: React.FC<PropsWithChildren> = ({ children }) => {
   const { data: myData, isFetched } = api.user.me.useQuery();
 
   useEffect(() => {
-    if (!myData?.name && isFetched) {
+    if (isFetched && myData?.onboardingStatus === 'new') {
       void router.push(`/onboarding/${myData?.id ?? ''}`);
+    }
+
+    if (
+      isFetched &&
+      myData?.onboardingStatus === 'waitingRole' &&
+      me?.roles.length === 0
+    ) {
+      void router.push(`/waiting-role`);
     }
   }, [myData?.name]);
 
