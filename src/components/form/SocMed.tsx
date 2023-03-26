@@ -16,7 +16,7 @@ const SocMed = () => {
     api.organization.patchOrganizationSocMedCount.useMutation({
       onSuccess: () => {
         notifications.show({
-          message: 'Update success',
+          message: 'Update socmed count success',
         });
       },
     });
