@@ -7,7 +7,7 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start",
+    "start": "next start -p 8000",
     "db-seed": "NODE_ENV=development prisma db seed"
   },
   "dependencies": {
