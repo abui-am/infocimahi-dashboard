@@ -2,6 +2,8 @@ import { TRPCError } from '@trpc/server';
 import { getHTTPStatusCodeFromError } from '@trpc/server/http';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 
+import runMiddleware from '@/utils/cors';
+
 import { appRouter } from '../../../server/api/root';
 import { createTRPCContext } from '../../../server/api/trpc';
 
@@ -9,6 +11,7 @@ const organizationByIdHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
+  await runMiddleware(req, res);
   // Create context and caller
   const ctx = await createTRPCContext({ req, res });
   const caller = appRouter.createCaller(ctx);
