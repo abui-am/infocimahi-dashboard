@@ -1,20 +1,30 @@
-import { AppShell, Header } from '@mantine/core';
+import { AppShell, Burger, Header } from '@mantine/core';
 import { signOut, useSession } from 'next-auth/react';
-import React, { type PropsWithChildren } from 'react';
+import React, { type PropsWithChildren, useState } from 'react';
 
 import Sidebar from '../sidebar/Sidebar';
 
 const MainLayout = ({ children }: PropsWithChildren) => {
   const { data } = useSession();
+  const [opened, setOpened] = useState(false);
+
   return (
     <AppShell
       padding="md"
-      navbar={<Sidebar />}
+      navbarOffsetBreakpoint="sm"
+      asideOffsetBreakpoint="sm"
+      navbar={<Sidebar opened={opened} />}
       header={
         <Header height={60} p="xs">
           <div className="mx-auto flex h-full items-center justify-between px-4">
             <h1 className="text-base font-bold">Infocimahi Dashboard</h1>
-            <div className="flex gap-4">
+            <Burger
+              className="sm:hidden"
+              opened={opened}
+              onClick={() => setOpened((o) => !o)}
+              size="sm"
+            />
+            <div className="hidden gap-4 sm:flex">
               <span>Hello, {data?.user?.name || data?.user.email}</span>
               <button
                 type="button"

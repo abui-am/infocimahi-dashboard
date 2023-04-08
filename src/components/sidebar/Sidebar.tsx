@@ -4,10 +4,16 @@ import React from 'react';
 
 import { api } from '@/utils/api';
 
-const Sidebar = () => {
+const Sidebar = ({ opened }: { opened: boolean }) => {
   const me = api.user.me.useQuery();
   return (
-    <Navbar width={{ base: 300 }} height="100%" p="xs">
+    <Navbar
+      width={{ sm: 300 }}
+      hiddenBreakpoint="sm"
+      hidden={!opened}
+      height="100%"
+      p="xs"
+    >
       <Link href="/">
         <NavLink label="Dashboard" />
       </Link>
