@@ -11,7 +11,7 @@ const OnboardingForm = ({ id }: { id: string }) => {
   const { mutate, isLoading } = api.user.pathUser.useMutation({
     onSuccess: async () => {
       notifications.show({
-        message: 'Onboarding successfull',
+        message: 'Onboarding successfull!',
       });
       await utils.user.invalidate();
       void router.push('/');
