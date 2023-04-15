@@ -19,7 +19,7 @@ const organizationByIdHandler = async (
     const { id } = req.query;
     if (!id || Array.isArray(id)) {
       res.status(404).json({
-        message: 'Not Found',
+        message: 'Not Found!',
       });
       return;
     }
